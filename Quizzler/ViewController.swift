@@ -11,7 +11,9 @@ import UIKit
 class ViewController: UIViewController {
     
     //Place your instance variables here
-    
+    let allQuestions = QuestionBank()
+    var pickedAns = false
+    var questionNum = 0
     
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -21,11 +23,22 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let firstQ = allQuestions.list[0]
+        questionLabel.text = firstQ.questionText
     }
 
 
     @IBAction func answerPressed(_ sender: AnyObject) {
-  
+        
+        if sender.tag == 1 {
+            pickedAns = true
+        } else {
+            pickedAns = false
+        }
+        
+        checkAnswer()
+        questionNum += 1
+        nextQuestion()
     }
     
     
@@ -35,11 +48,24 @@ class ViewController: UIViewController {
     
 
     func nextQuestion() {
-        
+        if questionNum <= 12 {
+            questionLabel.text = allQuestions.list[questionNum].questionText
+        } else {
+            print("end of quiz")
+            questionNum = 0
+        }
     }
     
     
     func checkAnswer() {
+        
+        let correctA = allQuestions.list[questionNum].answer
+        
+        if correctA == pickedAns {
+            print("You got it! Correct Answer: \(correctA)")
+        } else {
+            print("Incorrect! Wrong Answer: \(correctA)")
+        }
         
     }
     
